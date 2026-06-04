@@ -9,11 +9,10 @@ const Footer = async () => {
     let stats: RepoStats = { stargazers_count: 0, forks_count: 0 };
     
     // Placeholder for your GitHub repository stats
-    // Replace 'your-username/your-repo' with your actual repository path
-    const GITHUB_REPO = 'your-username/your-repo'; 
+    const GITHUB_REPO = 'Zedts/MyPortfolio'; 
 
     try {
-        if (GITHUB_REPO !== 'your-username/your-repo') {
+        if (GITHUB_REPO !== 'Zedts/MyPortfolio') {
             const repoStats = await fetch(
                 `https://api.github.com/repos/${GITHUB_REPO}`,
                 {
@@ -44,7 +43,7 @@ const Footer = async () => {
                 </a>
                 
                 <div className="flex justify-center gap-8 text-sm text-muted-foreground mt-10">
-                    <p>© {new Date().getFullYear()} Your Name</p>
+                    <p>© {new Date().getFullYear()} Royyan Hikmal Kautsar</p>
                     {stats.stargazers_count > 0 && (
                         <div className="flex gap-4">
                             <span>⭐ {stats.stargazers_count}</span>

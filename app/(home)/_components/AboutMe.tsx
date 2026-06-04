@@ -56,7 +56,7 @@ const AboutMe = () => {
         <section className="pb-section pt-20" id="about-me">
             <div className="container" ref={container}>
                 <h2 className="text-4xl md:text-6xl font-light mb-20 slide-up-and-fade-about leading-tight">
-                    [Your Mission Statement: I believe in a user-centered design approach, ensuring every project is tailored to its users.]
+                    I believe in a user-centered design approach, ensuring every project is tailored to its users.
                 </h2>
 
                 <SectionTitle title="About Me" className="slide-up-and-fade-about" />
@@ -64,16 +64,16 @@ const AboutMe = () => {
                 <div className="grid md:grid-cols-12 mt-12 gap-8">
                     <div className="md:col-span-5">
                         <p className="text-5xl font-anton slide-up-and-fade-about">
-                            Hi, I&apos;m [Your Name].
+                            Hi, I&apos;m Royyan Hikmal Kautsar.
                         </p>
                     </div>
                     <div className="md:col-span-7">
                         <div className="text-lg text-muted-foreground max-w-[500px] space-y-6">
                             <p className="slide-up-and-fade-about">
-                                [Your Professional Summary: I am a developer dedicated to turning ideas into reality. I specialize in creating seamless and intuitive digital experiences.]
+                                I am a developer dedicated to turning ideas into reality. I specialize in creating seamless and intuitive digital experiences.
                             </p>
                             <p className="slide-up-and-fade-about">
-                                [Your Approach: My work focuses on scalability and performance, ensuring that every solution is optimized for both users and business goals.]
+                                My work focuses on scalability and performance, ensuring that every solution is optimized for both users and business goals.
                             </p>
                         </div>
                     </div>

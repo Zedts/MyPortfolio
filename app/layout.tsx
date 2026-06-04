@@ -28,8 +28,8 @@ const robotoFlex = Roboto_Flex({
 });
 
 export const metadata: Metadata = {
-    title: 'Your Name - Portfolio',
-    description: 'Personal portfolio of Your Name',
+    title: 'Royyan Hikmal Kautsar - Portfolio',
+    description: 'Personal portfolio of Royyan Hikmal Kautsar',
 };
 
 export default function RootLayout({

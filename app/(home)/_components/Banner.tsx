@@ -47,7 +47,7 @@ const Banner = () => {
                     <p className="banner-description slide-up-and-fade mt-6 text-lg text-muted-foreground">
                         Hi! I&apos;m{' '}
                         <span className="font-medium text-foreground">
-                            [Your Name]
+                            Royyan Hikmal Kautsar
                         </span>
                         . A passionate developer with experience in building modern web applications. 
                         Focused on clean code, performance, and user experience.
@@ -67,7 +67,7 @@ const Banner = () => {
                 <div className="md:absolute bottom-[10%] right-[4%] flex md:flex-col gap-4 md:gap-8 text-center md:text-right">
                     <div className="slide-up-and-fade">
                         <h5 className="text-3xl sm:text-4xl font-anton text-primary mb-1.5">
-                            X+
+                            3+
                         </h5>
                         <p className="text-muted-foreground">
                             Years of Experience
@@ -75,7 +75,7 @@ const Banner = () => {
                     </div>
                     <div className="slide-up-and-fade">
                         <h5 className="text-3xl sm:text-4xl font-anton text-primary mb-1.5">
-                            Y+
+                            7+
                         </h5>
                         <p className="text-muted-foreground">
                             Completed Projects
@@ -83,7 +83,7 @@ const Banner = () => {
                     </div>
                     <div className="slide-up-and-fade">
                         <h5 className="text-3xl sm:text-4xl font-anton text-primary mb-1.5">
-                            Z+
+                            1.000+
                         </h5>
                         <p className="text-muted-foreground">Hours Worked</p>
                     </div>
