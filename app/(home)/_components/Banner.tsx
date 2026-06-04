@@ -38,15 +38,15 @@ const Banner = () => {
         <section className="relative overflow-hidden" id="banner">
             <ArrowAnimation />
             <div
-                className="container h-[100svh] min-h-[530px] max-md:pb-10 flex justify-between items-center max-md:flex-col relative z-[1]"
+                className="container h-[100svh] min-h-[530px] max-md:pb-10 flex justify-between items-center max-md:flex-col relative z-[1] 2xl:px-24 2xl:mx-auto"
                 ref={containerRef}
             >
-                <div className="max-md:grow max-md:flex flex-col justify-center items-start max-w-[544px]">
-                    <h1 className="banner-title slide-up-and-fade leading-[.95] text-6xl sm:text-[80px] font-anton">
+                <div className="max-md:grow max-md:flex flex-col justify-center items-start max-w-[800px]">
+                    <h1 className="banner-title slide-up-and-fade leading-[.95] text-7xl sm:text-8xl lg:text-[120px] font-anton">
                         <span className="text-primary">FULL-STACK</span>
                         <br /> <span className="ml-4">DEVELOPER</span>
                     </h1>
-                    <p className="banner-description slide-up-and-fade mt-6 text-lg text-muted-foreground">
+                    <p className="banner-description slide-up-and-fade mt-6 text-xl sm:text-2xl text-muted-foreground">
                         Hi! I&apos;m{' '}
                         <span className="font-medium text-foreground">
                             Royyan Hikmal Kautsar
@@ -62,7 +62,7 @@ const Banner = () => {
                                 rel="noopener noreferrer"
                                 href={GENERAL_INFO.upworkProfile}
                                 variant="no-color"
-                                className="banner-button relative overflow-hidden bg-primary text-primary-foreground h-14 px-10 rounded-lg group"
+                                className="banner-button relative overflow-hidden bg-primary text-primary-foreground h-16 px-12 text-lg rounded-lg group"
                             >
                                 {/* Liquid Fill Animation Background */}
                                 <span className="absolute bottom-0 left-0 w-full h-0 bg-white group-hover:h-full transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] rounded-t-[50%] group-hover:rounded-t-none"></span>
@@ -84,26 +84,26 @@ const Banner = () => {
 
                 <div className="md:absolute bottom-[10%] right-[4%] flex md:flex-col gap-4 md:gap-8 text-center md:text-right">
                     <div className="slide-up-and-fade">
-                        <h5 className="text-3xl sm:text-4xl font-anton text-primary mb-1.5">
+                        <h5 className="text-4xl sm:text-5xl font-anton text-primary mb-1.5">
                             3+
                         </h5>
-                        <p className="text-muted-foreground">
+                        <p className="text-muted-foreground text-base">
                             Years of Experience
                         </p>
                     </div>
                     <div className="slide-up-and-fade">
-                        <h5 className="text-3xl sm:text-4xl font-anton text-primary mb-1.5">
+                        <h5 className="text-4xl sm:text-5xl font-anton text-primary mb-1.5">
                             7+
                         </h5>
-                        <p className="text-muted-foreground">
+                        <p className="text-muted-foreground text-base">
                             Completed Projects
                         </p>
                     </div>
                     <div className="slide-up-and-fade">
-                        <h5 className="text-3xl sm:text-4xl font-anton text-primary mb-1.5">
+                        <h5 className="text-4xl sm:text-5xl font-anton text-primary mb-1.5">
                             1.000+
                         </h5>
-                        <p className="text-muted-foreground">Hours Worked</p>
+                        <p className="text-muted-foreground text-base">Hours Worked</p>
                     </div>
                 </div>
             </div>

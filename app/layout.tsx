@@ -11,7 +11,6 @@ import CustomCursor from '@/components/animations/CustomCursor';
 import Preloader from '@/components/animations/Preloader';
 import ParticleBackground from '@/components/animations/ParticleBackground';
 import ScrollProgressIndicator from '@/components/common/ScrollProgressIndicator';
-import StickyEmail from '@/app/(home)/_components/StickyEmail';
 
 const antonFont = Anton({
     weight: '400',
@@ -58,7 +57,6 @@ export default function RootLayout({
                     <Preloader />
                     <ScrollProgressIndicator />
                     <ParticleBackground />
-                    <StickyEmail />
                 </ReactLenis>
             </body>
         </html>
