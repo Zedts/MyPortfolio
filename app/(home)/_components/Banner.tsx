@@ -1,6 +1,7 @@
 'use client';
 import ArrowAnimation from '@/components/animations/ArrowAnimation';
 import Button from '@/components/ui/Button';
+import { useHoverSound } from '@/hooks/useHoverSound';
 import { GENERAL_INFO } from '@/lib/data';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -11,6 +12,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const Banner = () => {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const playHoverSound = useHoverSound();
 
     useGSAP(
         () => {
@@ -53,21 +55,23 @@ const Banner = () => {
                         Focused on clean code, performance, and user experience.
                     </p>
                     <div className="flex flex-col items-start gap-4 mt-9 slide-up-and-fade group/btn-container">
-                        <Button
-                            as="link"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            href={GENERAL_INFO.upworkProfile}
-                            variant="no-color"
-                            className="banner-button relative overflow-hidden bg-primary text-primary-foreground h-14 px-10 rounded-lg group"
-                        >
-                            {/* Liquid Fill Animation Background */}
-                            <span className="absolute bottom-0 left-0 w-full h-0 bg-white group-hover:h-full transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] rounded-t-[50%] group-hover:rounded-t-none"></span>
-                            
-                            <span className="relative z-10 transition-colors duration-500 group-hover:text-black">
-                                Let&apos;s Talk
-                            </span>
-                        </Button>
+                        <div className="contents" onMouseEnter={playHoverSound}>
+                            <Button
+                                as="link"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                href={GENERAL_INFO.upworkProfile}
+                                variant="no-color"
+                                className="banner-button relative overflow-hidden bg-primary text-primary-foreground h-14 px-10 rounded-lg group"
+                            >
+                                {/* Liquid Fill Animation Background */}
+                                <span className="absolute bottom-0 left-0 w-full h-0 bg-white group-hover:h-full transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] rounded-t-[50%] group-hover:rounded-t-none"></span>
+
+                                <span className="relative z-10 transition-colors duration-500 group-hover:text-black">
+                                    Let&apos;s Talk
+                                </span>
+                            </Button>
+                        </div>
                         <div className="flex items-center gap-2 text-muted-foreground text-sm font-medium ml-1">
                             <span className="relative flex h-2 w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>

@@ -1,4 +1,5 @@
 'use client';
+import { useHoverSound } from '@/hooks/useHoverSound';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { MoveUpRight } from 'lucide-react';
@@ -34,6 +35,7 @@ const MENU_LINKS = [
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
+    const playHoverSound = useHoverSound();
 
     return (
         <>
@@ -42,6 +44,7 @@ const Navbar = () => {
                     className={cn(
                         'group size-12 absolute top-5 right-5 md:right-10 z-[2]',
                     )}
+                    onMouseEnter={playHoverSound}
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
                     <span
@@ -105,6 +108,7 @@ const Navbar = () => {
                                             target="_blank"
                                             rel="noreferrer"
                                             className="text-lg capitalize hover:underline"
+                                            onMouseEnter={playHoverSound}
                                         >
                                             {link.name}
                                         </a>
@@ -120,6 +124,7 @@ const Navbar = () => {
                                 {MENU_LINKS.map((link, idx) => (
                                     <li key={link.name}>
                                         <button
+                                            onMouseEnter={playHoverSound}
                                             onClick={() => {
                                                 router.push(link.url);
                                                 setIsMenuOpen(false);
@@ -148,7 +153,7 @@ const Navbar = () => {
 
                 <div className="w-full max-w-[300px] mx-8 sm:mx-auto">
                     <p className="text-muted-foreground mb-4">GET IN TOUCH</p>
-                    <a href={`mailto:${GENERAL_INFO.email}`} className="hover:text-primary transition-colors">
+                    <a href={`mailto:${GENERAL_INFO.email}`} className="hover:text-primary transition-colors" onMouseEnter={playHoverSound}>
                         {GENERAL_INFO.email}
                     </a>
                 </div>

@@ -2,6 +2,7 @@
 import parse from 'html-react-parser';
 import ArrowAnimation from '@/components/animations/ArrowAnimation';
 import TransitionLink from '@/components/common/TransitionLink';
+import { useHoverSound } from '@/hooks/useHoverSound';
 import { IProject } from '@/types';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
@@ -17,6 +18,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ProjectDetails = ({ project }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const playHoverSound = useHoverSound();
 
     useGSAP(
         () => {
@@ -88,6 +90,7 @@ const ProjectDetails = ({ project }: Props) => {
                     back
                     href="/"
                     className="mb-16 inline-flex gap-3 items-center group text-lg font-medium hover:text-primary transition-colors"
+                    onMouseEnter={playHoverSound}
                 >
                     <ArrowLeft className="group-hover:-translate-x-2 transition-transform duration-300" />
                     Back to projects
@@ -120,6 +123,7 @@ const ProjectDetails = ({ project }: Props) => {
                                         target="_blank"
                                         rel="noreferrer noopener"
                                         className="size-14 rounded-full bg-background-light flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all"
+                                        onMouseEnter={playHoverSound}
                                     >
                                         <Globe size={24} />
                                     </a>
@@ -185,7 +189,10 @@ const ProjectDetails = ({ project }: Props) => {
                             className="group relative w-full aspect-video bg-background-light rounded-2xl overflow-hidden border border-border"
                         >
                             {image.includes('placeholder') ? (
-                                <div className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground bg-background-light uppercase tracking-widest text-sm p-12 text-center border-2 border-dashed border-border m-4 rounded-xl">
+                                <div
+                                    className="absolute inset-0 flex flex-col items-center justify-center text-muted-foreground bg-background-light uppercase tracking-widest text-sm p-12 text-center border-2 border-dashed border-border m-4 rounded-xl"
+                                    onMouseEnter={playHoverSound}
+                                >
                                     Project Image Placeholder {index + 1}
                                     <p className="mt-4 text-xs normal-case font-roboto-flex tracking-normal opacity-60">
                                         Replace with your own project screenshot in lib/data.ts

@@ -1,3 +1,4 @@
+import { SoundLink } from '@/hooks/useHoverSound';
 import { GENERAL_INFO } from '@/lib/data';
 
 interface RepoStats {
@@ -35,12 +36,12 @@ const Footer = async () => {
         <footer className="text-center pb-10 mt-20" id="contact">
             <div className="container">
                 <p className="text-lg text-muted-foreground">Have a project in mind?</p>
-                <a
+                <SoundLink
                     href={`mailto:${GENERAL_INFO.email}`}
                     className="text-3xl sm:text-5xl font-anton inline-block mt-5 mb-10 hover:text-primary transition-colors underline decoration-primary underline-offset-8"
                 >
                     {GENERAL_INFO.email}
-                </a>
+                </SoundLink>
                 
                 <div className="flex justify-center gap-8 text-sm text-muted-foreground mt-10">
                     <p>© {new Date().getFullYear()} Royyan Hikmal Kautsar</p>

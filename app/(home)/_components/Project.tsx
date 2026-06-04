@@ -1,4 +1,5 @@
 'use client';
+import { useHoverSound } from '@/hooks/useHoverSound';
 import TransitionLink from '@/components/common/TransitionLink';
 import { IProject } from '@/types';
 import { useGSAP } from '@gsap/react';
@@ -14,6 +15,7 @@ interface Props {
 }
 
 const Project = ({ index, project, selectedProject, onMouseEnter }: Props) => {
+    const playHoverSound = useHoverSound();
     const externalLinkSVGRef = useRef<SVGSVGElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -22,6 +24,8 @@ const Project = ({ index, project, selectedProject, onMouseEnter }: Props) => {
     });
 
     const handleMouseEnter = () => {
+        playHoverSound();
+
         if (!contextSafe) return;
         
         contextSafe(() => {
