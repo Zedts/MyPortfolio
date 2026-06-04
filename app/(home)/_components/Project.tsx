@@ -95,10 +95,10 @@ const Project = ({ index, project, selectedProject, onMouseEnter }: Props) => {
     };
 
     return (
-        <div ref={containerRef}>
+        <div ref={containerRef} className="border-t border-border/50 first:border-none last:border-b">
             <TransitionLink
                 href={`/projects/${project.slug}`}
-                className="project-item group leading-none py-8 md:border-b border-border first:!pt-0 last:pb-0 last:border-none md:group-hover/projects:opacity-30 md:hover:!opacity-100 transition-all block"
+                className="project-item group leading-none py-10 md:py-16 md:group-hover/projects:opacity-30 md:hover:!opacity-100 transition-all block"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >

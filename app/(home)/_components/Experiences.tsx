@@ -46,6 +46,21 @@ const Experiences = () => {
                     }
                 );
             }
+
+            // Exit animation for the whole section
+            const exitTl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: containerRef.current,
+                    start: 'bottom 50%',
+                    end: 'bottom 10%',
+                    scrub: 1,
+                },
+            });
+
+            exitTl.to(containerRef.current, {
+                y: -150,
+                opacity: 0,
+            });
         },
         { scope: containerRef }
     );

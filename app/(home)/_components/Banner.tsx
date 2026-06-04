@@ -41,7 +41,7 @@ const Banner = () => {
             >
                 <div className="max-md:grow max-md:flex flex-col justify-center items-start max-w-[544px]">
                     <h1 className="banner-title slide-up-and-fade leading-[.95] text-6xl sm:text-[80px] font-anton">
-                        <span className="text-primary">CREATIVE</span>
+                        <span className="text-primary">FULL-STACK</span>
                         <br /> <span className="ml-4">DEVELOPER</span>
                     </h1>
                     <p className="banner-description slide-up-and-fade mt-6 text-lg text-muted-foreground">
@@ -52,16 +52,30 @@ const Banner = () => {
                         . A passionate developer with experience in building modern web applications. 
                         Focused on clean code, performance, and user experience.
                     </p>
-                    <Button
-                        as="link"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        href={GENERAL_INFO.upworkProfile}
-                        variant="primary"
-                        className="mt-9 banner-button slide-up-and-fade"
-                    >
-                        Hire Me
-                    </Button>
+                    <div className="flex flex-col items-start gap-4 mt-9 slide-up-and-fade group/btn-container">
+                        <Button
+                            as="link"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            href={GENERAL_INFO.upworkProfile}
+                            variant="no-color"
+                            className="banner-button relative overflow-hidden bg-primary text-primary-foreground h-14 px-10 rounded-lg group"
+                        >
+                            {/* Liquid Fill Animation Background */}
+                            <span className="absolute bottom-0 left-0 w-full h-0 bg-white group-hover:h-full transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] rounded-t-[50%] group-hover:rounded-t-none"></span>
+                            
+                            <span className="relative z-10 transition-colors duration-500 group-hover:text-black">
+                                Let&apos;s Talk
+                            </span>
+                        </Button>
+                        <div className="flex items-center gap-2 text-muted-foreground text-sm font-medium ml-1">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+                            </span>
+                            Available for full-time opportunities
+                        </div>
+                    </div>
                 </div>
 
                 <div className="md:absolute bottom-[10%] right-[4%] flex md:flex-col gap-4 md:gap-8 text-center md:text-right">
