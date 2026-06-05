@@ -47,7 +47,7 @@ const Banner = () => {
                         <br /> <span className="ml-4">DEVELOPER</span>
                     </h1>
                     <p className="banner-description slide-up-and-fade mt-6 text-xl sm:text-2xl text-muted-foreground">
-                        Hi! I&apos;m{' '}
+                        Hi! I'm{' '}
                         <span className="font-medium text-foreground">
                             Royyan Hikmal Kautsar
                         </span>
@@ -68,7 +68,7 @@ const Banner = () => {
                                 <span className="absolute bottom-0 left-0 w-full h-0 bg-white group-hover:h-full transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] rounded-t-[50%] group-hover:rounded-t-none"></span>
 
                                 <span className="relative z-10 transition-colors duration-500 group-hover:text-black">
-                                    Let&apos;s Talk
+                                    Let's Talk
                                 </span>
                             </Button>
                         </div>

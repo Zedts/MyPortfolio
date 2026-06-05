@@ -64,7 +64,7 @@ const AboutMe = () => {
                 <div className="grid md:grid-cols-12 mt-12 gap-8">
                     <div className="md:col-span-5">
                         <p className="text-5xl font-anton slide-up-and-fade-about">
-                            Hi, I&apos;m Royyan Hikmal Kautsar.
+                            Hi, I'm Royyan Hikmal Kautsar.
                         </p>
                     </div>
                     <div className="md:col-span-7">
