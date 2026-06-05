@@ -37,6 +37,17 @@ const Navbar = () => {
     const router = useRouter();
     const playHoverSound = useHoverSound();
 
+    const handleNavigation = (url: string) => {
+        // Jika URL adalah home page dan kita sudah di home, scroll ke atas
+        if (url === '/' && window.location.pathname === '/') {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            setIsMenuOpen(false);
+        } else {
+            router.push(url);
+            setIsMenuOpen(false);
+        }
+    };
+
     return (
         <>
             <div className="sticky top-0 z-[4]">
@@ -125,10 +136,7 @@ const Navbar = () => {
                                     <li key={link.name}>
                                         <button
                                             onMouseEnter={playHoverSound}
-                                            onClick={() => {
-                                                router.push(link.url);
-                                                setIsMenuOpen(false);
-                                            }}
+                                            onClick={() => handleNavigation(link.url)}
                                             className="group text-xl flex items-center gap-3 font-medium"
                                         >
                                             <span
