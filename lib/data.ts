@@ -110,7 +110,7 @@ export const PROJECTS: IProject[] = [
     {
         title: 'Portfolio',
         slug: 'portfolio',
-        liveUrl: '-',
+        liveUrl: 'https://royyan.vercel.app/',
         year: 2026,
         description: `
       Modern and interactive personal portfolio website showcasing my journey as a full-stack developer. Built with cutting-edge technologies to deliver a seamless user experience with smooth animations and responsive design. <br/> <br/>
