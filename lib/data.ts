@@ -150,8 +150,8 @@ export const PROJECTS: IProject[] = [
             'Framer Motion',
             'Vercel',
         ],
-        thumbnail: '/projects/thumbnail/portfolio.jpg',
-        longThumbnail: '/projects/long/portfolio.jpg',
+        thumbnail: '/projects/thumbnail/Portfolio.jpg',
+        longThumbnail: '/projects/long/Portfolio.jpg',
         images: [
             '/projects/images/Portfolio-1.jpg',
             '/projects/images/Portfolio-2.jpg',
