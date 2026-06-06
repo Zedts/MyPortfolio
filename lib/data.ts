@@ -150,8 +150,8 @@ export const PROJECTS: IProject[] = [
             'Framer Motion',
             'Vercel',
         ],
-        thumbnail: '/projects/thumbnail/portfolio.jpg',
-        longThumbnail: '/projects/long/portfolio.jpg',
+        thumbnail: '/projects/thumbnail/Portfolio.jpg',
+        longThumbnail: '/projects/long/Portfolio.jpg',
         images: [
             '/projects/images/Portfolio-1.png',
             '/projects/images/Portfolio-2.png',
@@ -160,7 +160,7 @@ export const PROJECTS: IProject[] = [
     {
         title: 'Warung Hub',
         slug: 'warung-hub',
-        liveUrl: '-',
+        liveUrl: 'https://royyan.vercel.app/',
         year: 2025,
         description: `
       Digital Marketplace Platform for Indonesian MSMEs. Responsive to all devices (mobile, tablet, desktop). List stores & products, seamless buying and selling. Features: Real-time chat, local payments, KPI Dashboard, role-based access. Tech: Next.js 15+, Tailwind CSS, Node.js/Supabase, PWA. <br/> <br/>
@@ -211,7 +211,7 @@ export const PROJECTS: IProject[] = [
     {
         title: 'Dimsum',
         slug: 'dimsum',
-        liveUrl: '-',
+        liveUrl: 'https://royyan.vercel.app/',
         year: 2025,
         description: `
       Dimsum is a modern frozen food e-commerce website I built for my own home-based dimsum business. It lets customers browse the menu, select dimsum varieties, and place orders online easily, built with Next.js, TypeScript, Tailwind CSS, Shadcn UI, and Supabase for a fast and responsive experience across all devices. <br/> <br/>
@@ -262,7 +262,7 @@ export const PROJECTS: IProject[] = [
     {
         title: 'Factory Dashboard',
         slug: 'factory-dashboard',
-        liveUrl: '-',
+        liveUrl: 'https://royyan.vercel.app/',
         year: 2025,
         description: `
       Factory dashboard created based on the tasks given during PKL at Denso in order to facilitate digitalization related to the KPI monitoring system for safety from various divisions used for meeting purposes <br/> <br/>
@@ -306,7 +306,7 @@ export const PROJECTS: IProject[] = [
     {
         title: 'Mizusumashi Surfers',
         slug: 'mizusumashi-surfers',
-        liveUrl: '-',
+        liveUrl: 'https://royyan.vercel.app/',
         year: 2025,
         description: `
       Mizusumashi surfers is an Android application developed using React Native, where this application functions as a mediator or refinement tool related to the previously manual process of inputting stock items to be sent to the warehouse to be automated by using the scan feature. <br/> <br/>
