@@ -1,21 +1,21 @@
 'use client';
 import SectionTitle from '@/components/common/SectionTitle';
-import { PROJECTS } from '@/lib/data';
 import { cn } from '@/lib/utils';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
+import { gsap, useGSAP } from '@/lib/gsap';
 import Image from 'next/image';
 import React, { useRef, useState, MouseEvent } from 'react';
 import Project from './Project';
+import type { ProjectWithId } from '@/lib/schemas/project';
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+interface Props {
+    projects: ProjectWithId[];
+}
 
-const ProjectList = () => {
+const ProjectList = ({ projects }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const imageContainer = useRef<HTMLDivElement>(null);
     const [selectedProject, setSelectedProject] = useState<string | null>(
-        PROJECTS.length > 0 ? PROJECTS[0].slug : null
+        projects.length > 0 ? projects[0].slug : null
     );
 
     useGSAP(
@@ -119,7 +119,7 @@ const ProjectList = () => {
                             className="max-md:hidden absolute right-0 top-0 z-[1] pointer-events-none w-[200px] xl:w-[400px] aspect-[3/4] overflow-hidden opacity-0 rounded-xl bg-background-light border border-border"
                             ref={imageContainer}
                         >
-                            {PROJECTS.map((project) => (
+                            {projects.map((project) => (
                                 <div
                                     key={project.slug}
                                     className={cn(
@@ -148,9 +148,9 @@ const ProjectList = () => {
                     )}
 
                     <div className="flex flex-col max-md:gap-16">
-                        {PROJECTS.map((project, index) => (
+                        {projects.map((project, index) => (
                             <Project
-                                key={project.slug}
+                                key={project.id || project.slug}
                                 index={index}
                                 project={project}
                                 selectedProject={selectedProject}

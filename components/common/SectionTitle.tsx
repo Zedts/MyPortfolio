@@ -9,11 +9,13 @@ interface Props {
         container?: string;
         title?: string;
         icon?: string;
+        subtitle?: string;
     };
     title: string;
+    subtitle?: string;
 }
 
-const SectionTitle = ({ icon, title, className, classNames }: Props) => {
+const SectionTitle = ({ icon, title, subtitle, className, classNames }: Props) => {
     return (
         <div
             className={cn(
@@ -26,22 +28,34 @@ const SectionTitle = ({ icon, title, className, classNames }: Props) => {
                 icon
             ) : (
                 <SvgSectionFlower
-                    width={25}
-                    height={25}
+                    width={30}
+                    height={30}
                     className={cn(
-                        'animate-spin duration-7000',
+                        'animate-spin duration-7000 shrink-0',
                         classNames?.icon,
                     )}
                 />
             )}
-            <h2
-                className={cn(
-                    'text-xl uppercase font-anton tracking-widest leading-none',
-                    classNames?.title,
+            <div>
+                <h2
+                    className={cn(
+                        'text-xl uppercase font-anton tracking-widest leading-none',
+                        classNames?.title,
+                    )}
+                >
+                    {title}
+                </h2>
+                {subtitle && (
+                    <p
+                        className={cn(
+                            'mt-2 text-sm text-muted-foreground font-roboto-flex normal-case tracking-normal',
+                            classNames?.subtitle,
+                        )}
+                    >
+                        {subtitle}
+                    </p>
                 )}
-            >
-                {title}
-            </h2>
+            </div>
         </div>
     );
 };

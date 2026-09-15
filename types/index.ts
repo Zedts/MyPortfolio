@@ -3,25 +3,19 @@ export type Next_Page_Url = string;
 export type Variant =
     | 'primary'
     | 'secondary'
-    | 'success'
-    | 'warning'
     | 'danger'
-    | 'info'
-    | 'light'
-    | 'dark'
-    | 'link'
     | 'no-color';
 
-export interface IProject {
-    title: string;
-    year: number;
-    description: string;
-    role: string;
-    techStack: string[];
-    thumbnail: string;
-    longThumbnail: string;
-    images: string[];
-    slug: string;
-    liveUrl?: string;
-    sourceCode?: string;
+export interface BulkOperationResult {
+    ok: boolean;
+    created: number;
+    updated: number;
+    deleted: number;
+    message?: string;
+}
+
+export interface BulkChangeset<T> {
+    create: T[];
+    update: Array<{ id: string; data: Partial<T> }>;
+    delete: string[];
 }

@@ -52,13 +52,7 @@ const Button = ({
     const variantClasses = {
         primary: `bg-primary text-primary-foreground hover:bg-primary/90`,
         secondary: `bg-secondary text-secondary-foreground hover:bg-secondary/90`,
-        success: `bg-green-500 text-white hover:bg-green-600`,
-        warning: `bg-orange-500 text-white hover:bg-orange-600`,
         danger: `bg-destructive text-destructive-foreground hover:bg-destructive/70`,
-        info: `bg-blue-500 text-white hover:bg-blue-600`,
-        light: `bg-background-light text-foreground hover:bg-background-light/80`,
-        dark: `bg-foreground text-background hover:bg-foreground/80`,
-        link: `text-foreground hover:text-primary`,
         'no-color': '',
     }[variant || 'primary'];
 
@@ -74,7 +68,7 @@ const Button = ({
         className,
     );
 
-    const renderOverlay = () => variant !== 'link' ? (
+    const renderOverlay = () => as !== 'link' ? (
         <span className="absolute top-[200%] left-0 right-0 h-full bg-white/10 rounded-[50%] group-hover:top-0 transition-all duration-500 scale-150 pointer-events-none"></span>
     ) : null;
 

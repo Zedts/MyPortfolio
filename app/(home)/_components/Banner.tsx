@@ -2,17 +2,32 @@
 import ArrowAnimation from '@/components/animations/ArrowAnimation';
 import Button from '@/components/ui/Button';
 import { useHoverSound } from '@/hooks/useHoverSound';
-import { GENERAL_INFO } from '@/lib/data';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
+import { gsap, useGSAP } from '@/lib/gsap';
 import React from 'react';
+import type { ISiteSettings } from '@/types/social';
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+interface Props {
+    settings?: ISiteSettings;
+}
 
-const Banner = () => {
+const DEFAULT_NAME = 'Royyan Hikmal Kautsar';
+const DEFAULT_DESCRIPTION = `Hi! I'm Royyan Hikmal Kautsar. A passionate developer with experience in building modern web applications. Focused on clean code, performance, and user experience.`;
+const DEFAULT_STATS = {
+    years: '3+',
+    projects: '7+',
+    users: '1000+',
+};
+
+const Banner = ({ settings }: Props) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
     const playHoverSound = useHoverSound();
+
+    const name = settings?.name || DEFAULT_NAME;
+    const upworkProfile = settings?.upworkProfile || 'https://www.upwork.com/freelancers/~01d4518f13a97b4f9a?viewMode=1';
+    const bannerDescription = settings?.bannerText || DEFAULT_DESCRIPTION;
+    const statsYears = settings?.bannerStats?.years || DEFAULT_STATS.years;
+    const statsProjects = settings?.bannerStats?.projects || DEFAULT_STATS.projects;
+    const statsUsers = settings?.bannerStats?.users || DEFAULT_STATS.users;
 
     useGSAP(
         () => {
@@ -47,12 +62,17 @@ const Banner = () => {
                         <br /> <span className="ml-4">DEVELOPER</span>
                     </h1>
                     <p className="banner-description slide-up-and-fade mt-6 text-xl sm:text-2xl text-muted-foreground">
-                        Hi! I'm{' '}
-                        <span className="font-medium text-foreground">
-                            Royyan Hikmal Kautsar
-                        </span>
-                        . A passionate developer with experience in building modern web applications. 
-                        Focused on clean code, performance, and user experience.
+                        {bannerDescription.includes(name) ? (
+                            <>{bannerDescription}</>
+                        ) : (
+                            <>
+                                Hi! I{'\''}m{' '}
+                                <span className="font-medium text-foreground">
+                                    {name}
+                                </span>
+                                . {bannerDescription.startsWith('Hi') ? bannerDescription.replace(/^Hi! I'm[^.]*\.?\s*/, '') : bannerDescription}
+                            </>
+                        )}
                     </p>
                     <div className="flex flex-col items-start gap-4 mt-9 slide-up-and-fade group/btn-container">
                         <div className="contents" onMouseEnter={playHoverSound}>
@@ -60,7 +80,7 @@ const Banner = () => {
                                 as="link"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href={GENERAL_INFO.upworkProfile}
+                                href={upworkProfile}
                                 variant="no-color"
                                 className="banner-button relative overflow-hidden bg-primary text-primary-foreground h-16 px-12 text-lg rounded-lg group"
                             >
@@ -68,7 +88,7 @@ const Banner = () => {
                                 <span className="absolute bottom-0 left-0 w-full h-0 bg-white group-hover:h-full transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)] rounded-t-[50%] group-hover:rounded-t-none"></span>
 
                                 <span className="relative z-10 transition-colors duration-500 group-hover:text-black">
-                                    Let's Talk
+                                    Let{'\''}s Talk
                                 </span>
                             </Button>
                         </div>
@@ -85,7 +105,7 @@ const Banner = () => {
                 <div className="md:absolute bottom-[10%] right-[4%] flex md:flex-col gap-4 md:gap-8 text-center md:text-right">
                     <div className="slide-up-and-fade">
                         <h5 className="text-4xl sm:text-5xl font-anton text-primary mb-1.5">
-                            3+
+                            {statsYears}
                         </h5>
                         <p className="text-muted-foreground text-base">
                             Years of Experience
@@ -93,7 +113,7 @@ const Banner = () => {
                     </div>
                     <div className="slide-up-and-fade">
                         <h5 className="text-4xl sm:text-5xl font-anton text-primary mb-1.5">
-                            7+
+                            {statsProjects}
                         </h5>
                         <p className="text-muted-foreground text-base">
                             Completed Projects
@@ -101,7 +121,7 @@ const Banner = () => {
                     </div>
                     <div className="slide-up-and-fade">
                         <h5 className="text-4xl sm:text-5xl font-anton text-primary mb-1.5">
-                            1.000+
+                            {statsUsers}
                         </h5>
                         <p className="text-muted-foreground text-base">Hours Worked</p>
                     </div>

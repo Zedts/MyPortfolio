@@ -11,6 +11,9 @@ import CustomCursor from '@/components/animations/CustomCursor';
 import Preloader from '@/components/animations/Preloader';
 import ParticleBackground from '@/components/animations/ParticleBackground';
 import ScrollProgressIndicator from '@/components/common/ScrollProgressIndicator';
+import AdminShortcut from '@/components/admin/AdminShortcut';
+import AdminLoginDialog from '@/components/admin/AdminLoginDialog';
+import { getSettings } from '@/lib/services/settings-service';
 
 const antonFont = Anton({
     weight: '400',
@@ -31,11 +34,15 @@ export const metadata: Metadata = {
     description: 'Personal portfolio of Royyan Hikmal Kautsar',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const settings = await getSettings().catch(() => null);
+    const socialLinks = settings?.socialLinks;
+    const email = settings?.email;
+
     return (
         <html lang="en" suppressHydrationWarning>
             <body
@@ -49,7 +56,7 @@ export default function RootLayout({
                         duration: 1.4,
                     }}
                 >
-                    <Navbar />
+                    <Navbar socialLinks={socialLinks} email={email} />
                     <main>{children}</main>
                     <Footer />
 
@@ -57,6 +64,8 @@ export default function RootLayout({
                     <Preloader />
                     <ScrollProgressIndicator />
                     <ParticleBackground />
+                    <AdminShortcut />
+                    <AdminLoginDialog />
                 </ReactLenis>
             </body>
         </html>

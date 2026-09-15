@@ -1,10 +1,13 @@
 import { notFound } from 'next/navigation';
 import ProjectDetails from './_components/ProjectDetails';
-import { PROJECTS } from '@/lib/data';
+import { getProjects, getProjectBySlug } from '@/lib/services/project-service';
 import { Metadata } from 'next';
 
+export const revalidate = 3600;
+
 export const generateStaticParams = async () => {
-    return PROJECTS.map((project) => ({ slug: project.slug }));
+    const projects = await getProjects({ filter: { published: true } });
+    return projects.map((project) => ({ slug: project.slug }));
 };
 
 type Props = {
@@ -15,7 +18,7 @@ export const generateMetadata = async ({
     params,
 }: Props): Promise<Metadata> => {
     const { slug } = await params;
-    const project = PROJECTS.find((project) => project.slug === slug);
+    const project = await getProjectBySlug(slug);
 
     if (!project) return {};
 
@@ -28,7 +31,7 @@ export const generateMetadata = async ({
 const Page = async ({ params }: Props) => {
     const { slug } = await params;
 
-    const project = PROJECTS.find((project) => project.slug === slug);
+    const project = await getProjectBySlug(slug);
 
     if (!project) {
         return notFound();

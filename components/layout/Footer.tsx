@@ -1,35 +1,40 @@
-import { SoundLink } from '@/hooks/useHoverSound';
-import { GENERAL_INFO } from '@/lib/data';
+import { SoundLink } from '@/components/ui/SoundLink';
+import FooterCopyright from '@/components/admin/FooterCopyright';
+import { getSettings } from '@/lib/services/settings-service';
 
 interface RepoStats {
     stargazers_count: number;
     forks_count: number;
 }
 
+const DEFAULT_EMAIL = 'ryyn.work@gmail.com';
+const DEFAULT_NAME = 'Royyan Hikmal Kautsar';
+
 const Footer = async () => {
     let stats: RepoStats = { stargazers_count: 0, forks_count: 0 };
-    
-    // Placeholder for your GitHub repository stats
-    const GITHUB_REPO = 'Zedts/MyPortfolio'; 
+
+    const GITHUB_REPO = 'Zedts/MyPortfolio';
+
+    const settings = await getSettings();
+    const email = settings?.email || DEFAULT_EMAIL;
+    const name = settings?.name || DEFAULT_NAME;
 
     try {
-        if (GITHUB_REPO !== 'Zedts/MyPortfolio') {
-            const repoStats = await fetch(
-                `https://api.github.com/repos/${GITHUB_REPO}`,
-                {
-                    next: {
-                        revalidate: 3600, // 1 hour
-                    },
+        const repoStats = await fetch(
+            `https://api.github.com/repos/${GITHUB_REPO}`,
+            {
+                next: {
+                    revalidate: 3600,
                 },
-            );
+            },
+        );
 
-            if (repoStats.ok) {
-                const data = await repoStats.json();
-                stats = data as RepoStats;
-            }
+        if (repoStats.ok) {
+            const data = await repoStats.json();
+            stats = data as RepoStats;
         }
-    } catch (error) {
-        console.error('Failed to fetch repo stats:', error);
+    } catch {
+        // Silently skip if GitHub API is unavailable
     }
 
     return (
@@ -37,14 +42,14 @@ const Footer = async () => {
             <div className="container">
                 <p className="text-lg text-muted-foreground">Have a project in mind?</p>
                 <SoundLink
-                    href={`mailto:${GENERAL_INFO.email}`}
+                    href={`mailto:${email}`}
                     className="text-3xl sm:text-5xl font-anton inline-block mt-5 mb-10 hover:text-primary transition-colors underline decoration-primary underline-offset-8"
                 >
-                    {GENERAL_INFO.email}
+                    {email}
                 </SoundLink>
                 
                 <div className="flex justify-center gap-8 text-sm text-muted-foreground mt-10">
-                    <p>© {new Date().getFullYear()} Royyan Hikmal Kautsar</p>
+                    <FooterCopyright year={new Date().getFullYear().toString()} name={name} />
                     {stats.stargazers_count > 0 && (
                         <div className="flex gap-4">
                             <span>⭐ {stats.stargazers_count}</span>

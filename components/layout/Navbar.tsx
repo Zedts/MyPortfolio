@@ -3,8 +3,16 @@ import { useHoverSound } from '@/hooks/useHoverSound';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { MoveUpRight } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { GENERAL_INFO, SOCIAL_LINKS } from '@/lib/data';
+import { usePathname, useRouter } from 'next/navigation';
+import type { ISocialLink } from '@/types/social';
+
+const DEFAULT_EMAIL = 'ryyn.work@gmail.com';
+const DEFAULT_SOCIAL_LINKS: ISocialLink[] = [
+    { name: 'github', url: 'https://github.com/Zedts' },
+    { name: 'linkedin', url: 'https://www.linkedin.com/in/royyan-hikmal-kautsar-a406332b0/' },
+    { name: 'instagram', url: 'https://www.instagram.com/royyan.hk/' },
+    { name: 'achievement', url: 'https://drive.google.com/drive/folders/1s61XgX6NXa1-G-8EMMepBoPOOQaTJ_iN?usp=sharing' },
+];
 
 const COLORS = [
     'bg-yellow-500 text-black',
@@ -32,10 +40,25 @@ const MENU_LINKS = [
     },
 ];
 
-const Navbar = () => {
+interface Props {
+    socialLinks?: ISocialLink[];
+    email?: string;
+}
+
+const Navbar = ({ socialLinks, email }: Props) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const router = useRouter();
+    const pathname = usePathname();
     const playHoverSound = useHoverSound();
+
+    const links = socialLinks?.length ? socialLinks : DEFAULT_SOCIAL_LINKS;
+    const contactEmail = email || DEFAULT_EMAIL;
+
+    // The back-office has its own responsive navigation drawer. Rendering the
+    // public menu there would create two competing navigation controls.
+    if (pathname === '/ops-k7m4' || pathname.startsWith('/ops-k7m4/')) {
+        return null;
+    }
 
     const handleNavigation = (url: string) => {
         // Jika URL adalah home page dan kita sudah di home, scroll ke atas
@@ -112,7 +135,7 @@ const Navbar = () => {
                                 SOCIAL
                             </p>
                             <ul className="space-y-3">
-                                {SOCIAL_LINKS.map((link) => (
+                                {links.map((link) => (
                                     <li key={link.name}>
                                         <a
                                             href={link.url}
@@ -161,8 +184,8 @@ const Navbar = () => {
 
                 <div className="w-full max-w-[300px] mx-8 sm:mx-auto">
                     <p className="text-muted-foreground mb-4">GET IN TOUCH</p>
-                    <a href={`mailto:${GENERAL_INFO.email}`} className="hover:text-primary transition-colors" onMouseEnter={playHoverSound}>
-                        {GENERAL_INFO.email}
+                    <a href={`mailto:${contactEmail}`} className="hover:text-primary transition-colors" onMouseEnter={playHoverSound}>
+                        {contactEmail}
                     </a>
                 </div>
             </div>

@@ -1,9 +1,8 @@
 'use client';
 import { useHoverSound } from '@/hooks/useHoverSound';
 import TransitionLink from '@/components/common/TransitionLink';
-import { IProject } from '@/types';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
+import type { IProject } from '@/types/project';
+import { gsap, useGSAP } from '@/lib/gsap';
 import Image from 'next/image';
 import { useRef } from 'react';
 

@@ -1,15 +1,15 @@
 'use client';
-import SectionTitle from '@/components/SectionTitle';
-import { MY_STACK } from '@/lib/data';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
+import SectionTitle from '@/components/common/SectionTitle';
+import { gsap, useGSAP } from '@/lib/gsap';
 import Image from 'next/image';
 import React, { useRef } from 'react';
+import type { StackCategories } from '@/types/stack';
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+interface Props {
+    stackGrouped: StackCategories;
+}
 
-const Skills = () => {
+const Skills = ({ stackGrouped }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
 
     useGSAP(
@@ -63,7 +63,7 @@ const Skills = () => {
                 <SectionTitle title="My Stack" />
 
                 <div className="space-y-20">
-                    {Object.entries(MY_STACK).map(([key, value]) => (
+                    {Object.entries(stackGrouped).map(([key, value]) => (
                         <div className="grid sm:grid-cols-12" key={key}>
                             <div className="sm:col-span-5">
                                 <p className="slide-up text-5xl font-anton leading-none text-muted-foreground uppercase">

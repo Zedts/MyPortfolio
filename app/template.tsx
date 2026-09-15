@@ -1,7 +1,6 @@
 'use client';
 
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
+import { gsap, useGSAP } from '@/lib/gsap';
 
 export default function Template({ children }: { children: React.ReactNode }) {
     useGSAP(() => {

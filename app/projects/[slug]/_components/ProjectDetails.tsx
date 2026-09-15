@@ -3,18 +3,14 @@ import parse from 'html-react-parser';
 import ArrowAnimation from '@/components/animations/ArrowAnimation';
 import TransitionLink from '@/components/common/TransitionLink';
 import { useHoverSound } from '@/hooks/useHoverSound';
-import { IProject } from '@/types';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
+import type { IProject } from '@/types/project';
+import { gsap, useGSAP } from '@/lib/gsap';
 import { ArrowLeft, ExternalLink, Code, Globe } from 'lucide-react';
 import { useRef } from 'react';
 
 interface Props {
     project: IProject;
 }
-
-gsap.registerPlugin(ScrollTrigger);
 
 const ProjectDetails = ({ project }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -144,7 +140,7 @@ const ProjectDetails = ({ project }: Props) => {
                                         Stack
                                     </p>
                                     <div className="flex flex-wrap gap-2 sm:gap-3">
-                                        {project.techStack.map(tech => (
+                                        {project.techStack.map((tech: string) => (
                                             <span key={tech} className="px-3 sm:px-4 py-1.5 sm:py-2 bg-background-light rounded-full text-xs sm:text-sm uppercase tracking-wider font-medium">
                                                 {tech}
                                             </span>
@@ -183,7 +179,7 @@ const ProjectDetails = ({ project }: Props) => {
                     className="fade-in-later relative flex flex-col gap-6 sm:gap-8 max-w-[1000px] mx-auto mt-12 sm:mt-16 lg:mt-20"
                     id="images"
                 >
-                    {project.images.map((image, index) => (
+                    {project.images.map((image: string, index: number) => (
                         <div
                             key={`${image}-${index}`}
                             className="group relative w-full aspect-video bg-background-light rounded-xl sm:rounded-2xl overflow-hidden border border-border"

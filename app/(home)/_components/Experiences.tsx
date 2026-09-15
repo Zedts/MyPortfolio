@@ -1,14 +1,14 @@
 'use client';
 import SectionTitle from '@/components/common/SectionTitle';
-import { MY_EXPERIENCE } from '@/lib/data';
-import { useGSAP } from '@gsap/react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/all';
-import { useRef } from 'react';
+import { gsap, useGSAP } from '@/lib/gsap';
+import React, { useRef } from 'react';
+import type { ExperienceWithId } from '@/lib/schemas/experience';
 
-gsap.registerPlugin(useGSAP, ScrollTrigger);
+interface Props {
+    experiences: ExperienceWithId[];
+}
 
-const Experiences = () => {
+const Experiences = ({ experiences }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const lineRef = useRef<HTMLDivElement>(null);
 
@@ -79,9 +79,9 @@ const Experiences = () => {
                     />
 
                     <div className="flex flex-col gap-24 sm:gap-32">
-                        {MY_EXPERIENCE.map((item, index) => (
+                        {experiences.map((item, index) => (
                             <div
-                                key={`${item.title}-${index}`}
+                                key={item.id || `${item.title}-${index}`}
                                 className="experience-item relative pl-10 sm:pl-16 group"
                             >
                                 {/* Intersection Dot */}
