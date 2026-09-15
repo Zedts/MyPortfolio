@@ -31,7 +31,7 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # env files (can opt-in for committing if needed)
-.env*
+.env.local
 
 # vercel
 .vercel
@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Text Editors
+graphify-out/*
+!graphify-out/graph.json
+
+# Firebase credentials
+firebase/service-account.json
+
+# Uploaded assets (keep .gitkeep only)
+public/uploads/icons/*
+!public/uploads/icons/.gitkeep
+public/uploads/project/thumbnail/*
+!public/uploads/project/thumbnail/.gitkeep
+public/uploads/project/long/*
+!public/uploads/project/long/.gitkeep
+public/uploads/project/images/*
+!public/uploads/project/images/.gitkeep
+public/uploads/experiences/*
+!public/uploads/experiences/.gitkeep
