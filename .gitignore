@@ -46,15 +46,3 @@ graphify-out/*
 
 # Firebase credentials
 firebase/service-account.json
-
-# Uploaded assets (keep .gitkeep only)
-public/uploads/icons/*
-!public/uploads/icons/.gitkeep
-public/uploads/project/thumbnail/*
-!public/uploads/project/thumbnail/.gitkeep
-public/uploads/project/long/*
-!public/uploads/project/long/.gitkeep
-public/uploads/project/images/*
-!public/uploads/project/images/.gitkeep
-public/uploads/experiences/*
-!public/uploads/experiences/.gitkeep
