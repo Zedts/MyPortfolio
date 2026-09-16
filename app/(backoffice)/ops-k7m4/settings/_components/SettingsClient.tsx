@@ -207,7 +207,7 @@ export default function SettingsClient({ initialSettings }: Props) {
                             </div>
                             <div>
                                 <label className="block text-[10px] uppercase font-anton tracking-widest mb-2 text-muted-foreground/80">
-                                    Users
+                                    Hours
                                 </label>
                                 <input
                                     type="text"
@@ -224,15 +224,37 @@ export default function SettingsClient({ initialSettings }: Props) {
 
             <div className={sectionClass}>
                 <h3 className={headingClass}>About Me</h3>
-                <div>
-                    <label className={labelClass}>About Me Text</label>
-                    <textarea
-                        value={settings.aboutMeText ?? ''}
-                        onChange={(e) => update('aboutMeText', e.target.value)}
-                        rows={10}
-                        className={textareaClass}
-                        placeholder="Hi, I'm..."
-                    />
+                <div className="space-y-4">
+                    <div>
+                        <label className={labelClass}>Display Name</label>
+                        <input
+                            type="text"
+                            value={settings.name ?? ''}
+                            onChange={(e) => update('name', e.target.value)}
+                            className={inputClass}
+                            placeholder="Royyan Hikmal Kautsar"
+                        />
+                    </div>
+                    <div>
+                        <label className={labelClass}>About Me Heading</label>
+                        <textarea
+                            value={settings.aboutMeTitle ?? ''}
+                            onChange={(e) => update('aboutMeTitle', e.target.value)}
+                            rows={3}
+                            className={textareaClass}
+                            placeholder="I believe in a user-centered design approach..."
+                        />
+                    </div>
+                    <div>
+                        <label className={labelClass}>About Me Text</label>
+                        <textarea
+                            value={settings.aboutMeText ?? ''}
+                            onChange={(e) => update('aboutMeText', e.target.value)}
+                            rows={10}
+                            className={textareaClass}
+                            placeholder="Hi, I'm..."
+                        />
+                    </div>
                 </div>
             </div>
 

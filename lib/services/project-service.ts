@@ -11,46 +11,33 @@ import {
     type ProjectWithId,
 } from '@/lib/schemas/project';
 import type { BulkOperationResult } from '@/types';
-import { PROJECTS } from '@/lib/data/projects';
+import { parseBracketList } from '@/lib/utils';
 
 const COLLECTION = 'projects';
 
+function normalizeProject(raw: IProject & { id?: string }): IProject & { id?: string } {
+    return {
+        ...raw,
+        techStack: parseBracketList<string>(raw.techStack, []),
+        images: parseBracketList<string>(raw.images, []),
+    };
+}
+
 export async function getProjects(opts?: { filter?: { published?: boolean } }): Promise<ProjectWithId[]> {
-    const fallback = PROJECTS.map((p) => ({ ...p, id: p.slug }));
-    if (!isAdminFirebaseReady || !adminDb) {
-        if (opts?.filter?.published === true) return fallback.filter((p) => p.published);
-        return fallback;
+    if (!isAdminFirebaseReady || !adminDb) return [];
+
+    const query = adminDb.collection(COLLECTION).orderBy('order', 'asc');
+    const snap = await query.get();
+    const all = snap.docs.map((doc) => normalizeProject({ id: doc.id, ...(doc.data() as IProject) }) as ProjectWithId);
+
+    if (opts?.filter?.published === true) {
+        return all.filter((p) => p.published === true);
     }
-
-    try {
-        let query = adminDb.collection(COLLECTION).orderBy('order', 'asc');
-        if (opts?.filter?.published === true) {
-            query = query.where('published', '==', true) as FirebaseFirestore.Query<FirebaseFirestore.DocumentData>;
-        }
-
-        const snap = await query.get();
-        const data = snap.docs.map((doc) => ({
-            id: doc.id,
-            ...(doc.data() as IProject),
-        }));
-
-        if (!data.length) {
-            if (opts?.filter?.published === true) return fallback.filter((p) => p.published);
-            return fallback;
-        }
-
-        return data;
-    } catch {
-        if (opts?.filter?.published === true) return fallback.filter((p) => p.published);
-        return fallback;
-    }
+    return all;
 }
 
 export async function getProjectBySlug(slug: string): Promise<ProjectWithId | null> {
-    if (!isAdminFirebaseReady || !adminDb) {
-        const found = PROJECTS.find((p) => p.slug === slug);
-        return found ? { ...found, id: found.slug } : null;
-    }
+    if (!isAdminFirebaseReady || !adminDb) return null;
 
     const snap = await adminDb
         .collection(COLLECTION)
@@ -60,7 +47,7 @@ export async function getProjectBySlug(slug: string): Promise<ProjectWithId | nu
 
     if (snap.empty) return null;
     const doc = snap.docs[0];
-    return { id: doc.id, ...(doc.data() as IProject) };
+    return normalizeProject({ id: doc.id, ...(doc.data() as IProject) }) as ProjectWithId;
 }
 
 export async function saveProjectsBulk(

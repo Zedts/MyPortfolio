@@ -1,7 +1,7 @@
 'use client';
 import SectionTitle from '@/components/common/SectionTitle';
-import { cn } from '@/lib/utils';
-import { gsap, useGSAP } from '@/lib/gsap';
+import { cn, getAdaptiveStagger } from '@/lib/utils';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
 import Image from 'next/image';
 import React, { useRef, useState, MouseEvent } from 'react';
 import Project from './Project';
@@ -13,6 +13,7 @@ interface Props {
 
 const ProjectList = ({ projects }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLElement>(null);
     const imageContainer = useRef<HTMLDivElement>(null);
     const [selectedProject, setSelectedProject] = useState<string | null>(
         projects.length > 0 ? projects[0].slug : null
@@ -67,37 +68,29 @@ const ProjectList = ({ projects }: Props) => {
 
     useGSAP(
         () => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'top bottom',
-                    end: 'top 80%',
-                    toggleActions: 'restart none none reverse',
-                    scrub: 1,
+            const targets = sectionRef.current?.querySelectorAll('.project-reveal');
+            if (!targets?.length || !sectionRef.current) return;
+
+            gsap.to(targets,
+                {
+                    y: 0,
+                    autoAlpha: 1,
+                    stagger: getAdaptiveStagger(targets.length),
+                    duration: 1.05,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        id: 'project-list-fade-in',
+                        trigger: sectionRef.current,
+                        start: 'top 95%',
+                        toggleActions: 'play none none none',
+                        invalidateOnRefresh: true,
+                    },
                 },
-            });
+            );
 
-            tl.from(containerRef.current, {
-                y: 100,
-                opacity: 0,
-            });
-
-            // Exit animation
-            const exitTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'bottom 50%',
-                    end: 'bottom 10%',
-                    scrub: 1,
-                },
-            });
-
-            exitTl.to(containerRef.current, {
-                y: -150,
-                opacity: 0,
-            });
+            requestAnimationFrame(() => ScrollTrigger.refresh());
         },
-        { scope: containerRef },
+        { scope: sectionRef, dependencies: [projects.length] },
     );
 
     const handleMouseEnter = (slug: string) => {
@@ -109,9 +102,9 @@ const ProjectList = ({ projects }: Props) => {
     };
 
     return (
-        <section className="py-section" id="selected-projects">
+        <section className="py-section" id="selected-projects" ref={sectionRef}>
             <div className="container">
-                <SectionTitle title="SELECTED PROJECTS" />
+                <SectionTitle title="SELECTED PROJECTS" className="reveal-on-scroll project-reveal" />
 
                 <div className="group/projects relative" ref={containerRef}>
                     {selectedProject !== null && (

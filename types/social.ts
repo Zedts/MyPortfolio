@@ -17,6 +17,7 @@ export interface ISiteSettings {
     socialLinks: ISocialLink[];
     bannerStats?: IBannerStats;
     aboutMeText?: string;
+    aboutMeTitle?: string;
     bannerText?: string;
     name?: string;
     role?: string;

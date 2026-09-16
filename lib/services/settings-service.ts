@@ -2,61 +2,86 @@ import 'server-only';
 
 import { adminDb, isAdminFirebaseReady } from '@/lib/firebase/admin';
 import { requireAdmin } from '@/lib/auth/require-admin';
-import type { ISiteSettings } from '@/types/social';
+import type { IBannerStats, ISiteSettings, ISocialLink } from '@/types/social';
 import { siteSettingsSchema, type SiteSettingsInput } from '@/lib/schemas/settings';
 import type { BulkOperationResult } from '@/types';
-import { GENERAL_INFO, BANNER_STATS, ABOUT_ME_TEXT, BANNER_TEXT } from '@/lib/data/settings';
-import { SOCIAL_LINKS } from '@/lib/data/social';
+import { parseObjectString } from '@/lib/utils';
 
 const COLLECTION = 'settings';
 const DOC_ID = 'site';
 
-const FALLBACK_SETTINGS: ISiteSettings = {
-    email: GENERAL_INFO.email,
-    emailSubject: GENERAL_INFO.emailSubject,
-    emailBody: GENERAL_INFO.emailBody,
-    upworkProfile: GENERAL_INFO.upworkProfile,
-    socialLinks: SOCIAL_LINKS,
-    bannerStats: BANNER_STATS,
-    aboutMeText: ABOUT_ME_TEXT,
-    bannerText: BANNER_TEXT,
-};
+const EMPTY_STATS: IBannerStats = { years: '', projects: '', users: '' };
 
-export async function getSettings(): Promise<ISiteSettings> {
-    if (!isAdminFirebaseReady || !adminDb) {
-        return FALLBACK_SETTINGS;
-    }
-
-    try {
-        const snap = await adminDb.collection(COLLECTION).doc(DOC_ID).get();
-        if (!snap.exists) {
-            return FALLBACK_SETTINGS;
-        }
-
-        const raw = snap.data() as Record<string, unknown>;
-        const sanitized: Record<string, unknown> = {};
-        for (const [key, value] of Object.entries(raw)) {
-            if (value && typeof value === 'object' && '_seconds' in value) {
-                sanitized[key] = new Date(
-                    (value as { _seconds: number; _nanoseconds?: number })._seconds * 1000,
-                ).toISOString();
-            } else {
-                sanitized[key] = value;
+function normalizeSocialLinks(value: unknown): ISocialLink[] {
+    if (Array.isArray(value)) return value.filter((l) => l && typeof l === 'object' && 'name' in l && 'url' in l);
+    if (typeof value === 'string') {
+        const trimmed = value.trim();
+        if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+            try {
+                const parsed = JSON.parse(trimmed);
+                if (Array.isArray(parsed)) {
+                    return normalizeSocialLinks(parsed);
+                }
+            } catch {
+                const inner = trimmed.slice(1, -1);
+                const items = inner
+                    .split(/,\s*(?=\{)/)
+                    .map((s) => s.trim())
+                    .filter(Boolean);
+                const out: ISocialLink[] = [];
+                for (const item of items) {
+                    const nameMatch = item.match(/"name"\s*:\s*"([^"]+)"|'name'\s*:\s*'([^']+)'/);
+                    const urlMatch = item.match(/"url"\s*:\s*"([^"]+)"|'url'\s*:\s*'([^']+)'/);
+                    if (nameMatch && urlMatch) {
+                        out.push({ name: nameMatch[1] ?? nameMatch[2] ?? '', url: urlMatch[1] ?? urlMatch[2] ?? '' });
+                    }
+                }
+                if (out.length > 0) return out;
             }
         }
-
-        const data = sanitized as unknown as ISiteSettings & { lastModifiedAt?: string };
-        const { lastModifiedAt: _omit, ...rest } = data;
-        void _omit;
-
-        return {
-            ...FALLBACK_SETTINGS,
-            ...rest,
-            socialLinks: data.socialLinks?.length ? data.socialLinks : FALLBACK_SETTINGS.socialLinks,
-        };
-    } catch {
-        return FALLBACK_SETTINGS;
     }
+    return [];
+}
+
+export async function getSettings(): Promise<ISiteSettings> {
+    const empty: ISiteSettings = {
+        email: '',
+        emailSubject: '',
+        emailBody: '',
+        upworkProfile: '',
+        socialLinks: [],
+        bannerStats: { ...EMPTY_STATS },
+        aboutMeText: '',
+        aboutMeTitle: '',
+        bannerText: '',
+        name: '',
+        role: '',
+    };
+
+    if (!isAdminFirebaseReady || !adminDb) return empty;
+
+    const snap = await adminDb.collection(COLLECTION).doc(DOC_ID).get();
+    if (!snap.exists) return empty;
+
+    const raw = snap.data() as Record<string, unknown>;
+    const data: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(raw)) {
+        if (value && typeof value === 'object' && '_seconds' in value) {
+            data[key] = new Date(
+                (value as { _seconds: number; _nanoseconds?: number })._seconds * 1000,
+            ).toISOString();
+        } else {
+            data[key] = value;
+        }
+    }
+
+    return {
+        ...empty,
+        ...data,
+        bannerStats: parseObjectString<IBannerStats>(data.bannerStats, { ...EMPTY_STATS }),
+        socialLinks: normalizeSocialLinks(data.socialLinks),
+        socialLinks_raw: undefined,
+    } as ISiteSettings;
 }
 
 export async function saveSettings(
@@ -85,6 +110,8 @@ export async function saveSettings(
         updated = 0;
     const data = {
         ...parsed.data,
+        bannerStats: parsed.data.bannerStats ?? EMPTY_STATS,
+        socialLinks: parsed.data.socialLinks ?? [],
         lastModifiedAt: new Date(),
     } as Record<string, unknown>;
 

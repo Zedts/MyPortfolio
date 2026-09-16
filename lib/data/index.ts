@@ -1,5 +1,12 @@
-export { GENERAL_INFO, BANNER_STATS, ABOUT_ME_TEXT, BANNER_TEXT } from './settings';
+export {
+    GENERAL_INFO,
+    BANNER_STATS,
+    ABOUT_ME_TITLE,
+    ABOUT_ME_TEXT,
+    BANNER_TEXT,
+    DEFAULT_NAME,
+} from './settings';
 export { SOCIAL_LINKS } from './social';
-export { MY_STACK, STACK_ITEMS_FLAT } from './stack';
+export { STACK_ITEMS_FLAT } from './stack';
 export { MY_EXPERIENCE } from './experience';
-export { PROJECTS, PROJECTS_BY_SLUG } from './projects';
+export { PROJECTS } from './projects';

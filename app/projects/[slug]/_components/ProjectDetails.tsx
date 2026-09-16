@@ -191,7 +191,7 @@ const ProjectDetails = ({ project }: Props) => {
                                 >
                                     Project Image Placeholder {index + 1}
                                     <p className="mt-3 sm:mt-4 text-[10px] sm:text-xs normal-case font-roboto-flex tracking-normal opacity-60">
-                                        Replace with your own project screenshot in lib/data.ts
+                                        Upload project screenshots from the Projects admin panel
                                     </p>
                                 </div>
                             ) : (

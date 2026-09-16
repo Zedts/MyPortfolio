@@ -62,7 +62,7 @@ function getInitialForm(initialData?: ProjectWithId, initialOrder?: number): Pro
 export default function ProjectForm({ initialData, initialOrder, isEdit = false }: ProjectFormProps) {
     const router = useRouter();
     const playHover = useHoverSound();
-    const { setIsDirty, markClean } = useDirtyForm();
+    const { isDirty, setIsDirty, markClean } = useDirtyForm();
     const initialForm = useMemo(
         () => getInitialForm(initialData, initialOrder),
         [initialData, initialOrder],
@@ -200,7 +200,7 @@ export default function ProjectForm({ initialData, initialOrder, isEdit = false 
         }
     };
 
-    const save = async (publish: boolean) => {
+    const save = async () => {
         setSaving(true);
         setError(null);
         try {
@@ -214,7 +214,7 @@ export default function ProjectForm({ initialData, initialOrder, isEdit = false 
                 delete: [],
             };
 
-            const finalForm = { ...form, published: publish };
+            const finalForm = { ...form, published: form.published };
             if (isEdit && initialData) {
                 payload.update.push({
                     id: initialData.id,
@@ -722,28 +722,15 @@ export default function ProjectForm({ initialData, initialOrder, isEdit = false 
             <div className="flex flex-col gap-3 border-t border-border pt-6 sm:flex-row sm:flex-wrap sm:items-center">
                 <button
                     type="button"
-                    onClick={() => save(false)}
-                    disabled={saving}
-                    onMouseEnter={playHover}
-                    className={cn(
-                        'w-full px-8 py-3 rounded-md font-anton uppercase tracking-widest text-sm transition-colors sm:w-auto',
-                        'bg-background-light border border-border hover:bg-primary/10 hover:text-primary hover:border-primary/50',
-                        saving && 'opacity-50 cursor-not-allowed',
-                    )}
-                >
-                    {saving ? 'Saving...' : 'Save Draft'}
-                </button>
-                <button
-                    type="button"
-                    onClick={() => save(true)}
-                    disabled={saving}
+                    onClick={save}
+                    disabled={!isDirty || saving}
                     onMouseEnter={playHover}
                     className={cn(
                         'w-full px-8 py-3 rounded-md bg-primary text-primary-foreground font-anton uppercase tracking-widest text-sm hover:bg-primary/90 transition-colors sm:w-auto',
-                        saving && 'opacity-50 cursor-not-allowed',
+                        (!isDirty || saving) && 'opacity-50 cursor-not-allowed hover:bg-primary',
                     )}
                 >
-                    {saving ? 'Saving...' : 'Save & Publish'}
+                    {saving ? 'Saving...' : 'SAVE ALL'}
                 </button>
                 {isEdit && (
                     <button

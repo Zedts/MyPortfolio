@@ -9,36 +9,21 @@ import {
     type ExperienceWithId,
 } from '@/lib/schemas/experience';
 import type { BulkOperationResult } from '@/types';
-import { MY_EXPERIENCE } from '@/lib/data/experience';
-import { slugify } from '@/lib/utils';
 
 const COLLECTION = 'experiences';
 
 export async function getExperiences(): Promise<ExperienceWithId[]> {
-    const fallback = MY_EXPERIENCE.map((item, i) => ({
-        ...item,
-        id: slugify(item.company + '-' + item.title) + `-${i}`,
+    if (!isAdminFirebaseReady || !adminDb) return [];
+
+    const snap = await adminDb
+        .collection(COLLECTION)
+        .orderBy('order', 'asc')
+        .get();
+
+    return snap.docs.map((doc) => ({
+        id: doc.id,
+        ...(doc.data() as IExperience),
     }));
-    if (!isAdminFirebaseReady || !adminDb) {
-        return fallback;
-    }
-
-    try {
-        const snap = await adminDb
-            .collection(COLLECTION)
-            .orderBy('order', 'asc')
-            .get();
-
-        const data = snap.docs.map((doc) => ({
-            id: doc.id,
-            ...(doc.data() as IExperience),
-        }));
-
-        if (!data.length) return fallback;
-        return data;
-    } catch {
-        return fallback;
-    }
 }
 
 export async function saveExperiencesBulk(

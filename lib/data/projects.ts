@@ -255,5 +255,3 @@ export const PROJECTS: (IProject & { order: number; published: boolean })[] = [
         published: true,
     },
 ];
-
-export const PROJECTS_BY_SLUG = new Map(PROJECTS.map((p) => [p.slug, p] as const));

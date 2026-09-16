@@ -99,8 +99,14 @@
 }
 
 @layer components {
+  .reveal-on-scroll {
+    opacity: 0;
+    transform: translate3d(0, 72px, 0);
+    will-change: opacity, transform;
+  }
+
   .container {
-    @apply mx-auto px-4 max-w-[1148px];
+    @apply mx-auto px-6 sm:px-8 md:px-12 max-w-[1148px] 2xl:px-24 2xl:max-w-[1536px];
   }
 
   .grid {

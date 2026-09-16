@@ -51,8 +51,7 @@ export default async function RootLayout({
                 <HashScrollHandler />
                 <Navbar socialLinks={socialLinks} email={email} />
                 <main>{children}</main>
-                <Footer />
-
+                <Footer settings={settings} />
                 <CustomCursor />
                 <Preloader />
                 <ScrollProgressIndicator />

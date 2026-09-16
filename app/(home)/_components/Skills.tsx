@@ -1,6 +1,7 @@
 'use client';
 import SectionTitle from '@/components/common/SectionTitle';
 import { gsap, useGSAP } from '@/lib/gsap';
+import { getAdaptiveStagger } from '@/lib/utils';
 import Image from 'next/image';
 import React, { useRef } from 'react';
 import type { StackCategories } from '@/types/stack';
@@ -11,62 +12,42 @@ interface Props {
 
 const Skills = ({ stackGrouped }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLElement>(null);
 
     useGSAP(
         () => {
-            const slideUpEl =
-                containerRef.current?.querySelectorAll('.slide-up');
+            const targets = containerRef.current?.querySelectorAll('.reveal-on-scroll');
+            if (!targets?.length || !sectionRef.current) return;
 
-            if (!slideUpEl?.length) return;
-
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'top 80%',
-                    end: 'bottom 80%',
-                    scrub: 0.5,
+            gsap.to(targets,
+                {
+                    y: 0,
+                    autoAlpha: 1,
+                    ease: 'power3.out',
+                    stagger: getAdaptiveStagger(targets.length),
+                    duration: 1.05,
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: 'top 90%',
+                        toggleActions: 'play none none none',
+                        invalidateOnRefresh: true,
+                    },
                 },
-            });
-
-            tl.from('.slide-up', {
-                opacity: 0,
-                y: 40,
-                ease: 'none',
-                stagger: 0.4,
-            });
+            );
         },
-        { scope: containerRef },
-    );
-
-    useGSAP(
-        () => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'bottom 50%',
-                    end: 'bottom 10%',
-                    scrub: 1,
-                },
-            });
-
-            tl.to(containerRef.current, {
-                y: -150,
-                opacity: 0,
-            });
-        },
-        { scope: containerRef },
+        { scope: containerRef, dependencies: [Object.keys(stackGrouped).length, Object.values(stackGrouped).flat().length] },
     );
 
     return (
-        <section id="my-stack" className="py-section" ref={containerRef}>
-            <div className="container">
-                <SectionTitle title="My Stack" />
+        <section id="my-stack" className="py-section" ref={sectionRef}>
+            <div className="container" ref={containerRef}>
+                <SectionTitle title="My Stack" className="reveal-on-scroll" />
 
                 <div className="space-y-20">
                     {Object.entries(stackGrouped).map(([key, value]) => (
                         <div className="grid sm:grid-cols-12" key={key}>
                             <div className="sm:col-span-5">
-                                <p className="slide-up text-5xl font-anton leading-none text-muted-foreground uppercase">
+                                <p className="reveal-on-scroll text-5xl font-anton leading-none text-muted-foreground uppercase">
                                     {key}
                                 </p>
                             </div>
@@ -74,7 +55,7 @@ const Skills = ({ stackGrouped }: Props) => {
                             <div className="sm:col-span-7 flex gap-x-11 gap-y-9 flex-wrap">
                                 {value.map((item) => (
                                     <div
-                                        className="slide-up flex gap-3.5 items-center leading-none"
+                                        className="reveal-on-scroll flex gap-3.5 items-center leading-none"
                                         key={item.name}
                                     >
                                         <div>

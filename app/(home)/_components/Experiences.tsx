@@ -1,6 +1,7 @@
 'use client';
 import SectionTitle from '@/components/common/SectionTitle';
-import { gsap, useGSAP } from '@/lib/gsap';
+import { gsap, ScrollTrigger, useGSAP } from '@/lib/gsap';
+import { getAdaptiveStagger } from '@/lib/utils';
 import React, { useRef } from 'react';
 import type { ExperienceWithId } from '@/lib/schemas/experience';
 
@@ -10,25 +11,33 @@ interface Props {
 
 const Experiences = ({ experiences }: Props) => {
     const containerRef = useRef<HTMLDivElement>(null);
+    const sectionRef = useRef<HTMLElement>(null);
     const lineRef = useRef<HTMLDivElement>(null);
 
     useGSAP(
         () => {
-            // Entrance animation for items
-            gsap.from('.experience-item', {
-                y: 50,
-                opacity: 0,
-                stagger: 0.2,
-                duration: 0.8,
-                ease: 'power3.out',
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'top 80%',
-                    toggleActions: 'play none none none',
-                },
-            });
+            const targets = containerRef.current?.querySelectorAll('.experience-reveal');
+            if (targets?.length && sectionRef.current) {
+                gsap.to(targets,
+                    {
+                        y: 0,
+                        autoAlpha: 1,
+                        stagger: getAdaptiveStagger(targets.length),
+                        duration: 1.05,
+                        ease: 'power3.out',
+                        scrollTrigger: {
+                            id: 'experience-fade-in',
+                            trigger: sectionRef.current,
+                            start: 'top 95%',
+                            toggleActions: 'play none none none',
+                            invalidateOnRefresh: true,
+                        },
+                    },
+                );
+            }
 
-            // Animate the vertical line height on scroll
+            requestAnimationFrame(() => ScrollTrigger.refresh());
+
             if (lineRef.current) {
                 gsap.fromTo(
                     lineRef.current,
@@ -42,33 +51,19 @@ const Experiences = ({ experiences }: Props) => {
                             start: 'top 80%',
                             end: 'bottom 20%',
                             scrub: true,
+                            invalidateOnRefresh: true,
                         },
                     }
                 );
             }
-
-            // Exit animation for the whole section
-            const exitTl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'bottom 50%',
-                    end: 'bottom 10%',
-                    scrub: 1,
-                },
-            });
-
-            exitTl.to(containerRef.current, {
-                y: -150,
-                opacity: 0,
-            });
         },
-        { scope: containerRef }
+        { scope: containerRef, dependencies: [experiences.length] }
     );
 
     return (
-        <section className="py-section overflow-hidden" id="my-experience">
+        <section className="py-section overflow-hidden" id="my-experience" ref={sectionRef}>
             <div className="container" ref={containerRef}>
-                <SectionTitle title="My Experience" />
+                <SectionTitle title="My Experience" className="reveal-on-scroll experience-reveal" />
 
                 <div className="experience-list relative mt-16 ml-4 sm:ml-0">
                     {/* Continuous Vertical Green Line */}
@@ -82,7 +77,7 @@ const Experiences = ({ experiences }: Props) => {
                         {experiences.map((item, index) => (
                             <div
                                 key={item.id || `${item.title}-${index}`}
-                                className="experience-item relative pl-10 sm:pl-16 group"
+                                className="reveal-on-scroll experience-reveal experience-item relative pl-10 sm:pl-16 group"
                             >
                                 {/* Intersection Dot */}
                                 <div className="absolute left-0 top-[10px] w-4 h-4 rounded-full bg-background border-2 border-primary z-10 transition-transform duration-300 group-hover:scale-125">

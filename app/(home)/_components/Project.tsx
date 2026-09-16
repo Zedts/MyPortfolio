@@ -98,7 +98,7 @@ const Project = ({ index, project, selectedProject, onMouseEnter }: Props) => {
     };
 
     return (
-        <div ref={containerRef} className="border-t border-border/50 first:border-none last:border-b">
+        <div ref={containerRef} className="reveal-on-scroll project-reveal border-t border-border/50 first:border-none last:border-b">
             <TransitionLink
                 href={`/projects/${project.slug}`}
                 className="project-item group leading-none py-10 md:py-16 md:group-hover/projects:opacity-30 md:hover:!opacity-100 transition-all block"

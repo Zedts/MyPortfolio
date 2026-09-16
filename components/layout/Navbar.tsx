@@ -6,14 +6,6 @@ import { MoveUpRight } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { ISocialLink } from '@/types/social';
 
-const DEFAULT_EMAIL = 'ryyn.work@gmail.com';
-const DEFAULT_SOCIAL_LINKS: ISocialLink[] = [
-    { name: 'github', url: 'https://github.com/Zedts' },
-    { name: 'linkedin', url: 'https://www.linkedin.com/in/royyan-hikmal-kautsar-a406332b0/' },
-    { name: 'instagram', url: 'https://www.instagram.com/royyan.hk/' },
-    { name: 'achievement', url: 'https://drive.google.com/drive/folders/1s61XgX6NXa1-G-8EMMepBoPOOQaTJ_iN?usp=sharing' },
-];
-
 const COLORS = [
     'bg-yellow-500 text-black',
     'bg-blue-500 text-white',
@@ -39,8 +31,8 @@ const Navbar = ({ socialLinks, email }: Props) => {
     const pathname = usePathname();
     const playHoverSound = useHoverSound();
 
-    const links = socialLinks?.length ? socialLinks : DEFAULT_SOCIAL_LINKS;
-    const contactEmail = email || DEFAULT_EMAIL;
+    const links = socialLinks ?? [];
+    const contactEmail = email ?? '';
 
     const isBackOffice = pathname === '/ops-k7m4' || pathname.startsWith('/ops-k7m4/');
 

@@ -10,50 +10,51 @@ interface Props {
     settings?: ISiteSettings;
 }
 
-const DEFAULT_NAME = 'Royyan Hikmal Kautsar';
-const DEFAULT_DESCRIPTION = `Hi! I'm Royyan Hikmal Kautsar. A passionate developer with experience in building modern web applications. Focused on clean code, performance, and user experience.`;
-const DEFAULT_STATS = {
-    years: '3+',
-    projects: '7+',
-    users: '1000+',
-};
-
 const Banner = ({ settings }: Props) => {
     const containerRef = React.useRef<HTMLDivElement>(null);
+    const sectionRef = React.useRef<HTMLElement>(null);
     const playHoverSound = useHoverSound();
 
-    const name = settings?.name || DEFAULT_NAME;
-    const upworkProfile = settings?.upworkProfile || 'https://www.upwork.com/freelancers/~01d4518f13a97b4f9a?viewMode=1';
-    const bannerDescription = settings?.bannerText || DEFAULT_DESCRIPTION;
-    const statsYears = settings?.bannerStats?.years || DEFAULT_STATS.years;
-    const statsProjects = settings?.bannerStats?.projects || DEFAULT_STATS.projects;
-    const statsUsers = settings?.bannerStats?.users || DEFAULT_STATS.users;
+    const name = settings?.name ?? '';
+    const upworkProfile = settings?.upworkProfile ?? '#';
+    const bannerDescription = settings?.bannerText ?? '';
+    const statsYears = settings?.bannerStats?.years ?? '';
+    const statsProjects = settings?.bannerStats?.projects ?? '';
+    const statsUsers = settings?.bannerStats?.users ?? '';
 
     useGSAP(
         () => {
-            const tl = gsap.timeline({
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: 'bottom 70%',
-                    end: 'bottom 10%',
-                    scrub: 1,
-                },
+            const mm = gsap.matchMedia();
+
+            mm.add('(prefers-reduced-motion: no-preference)', () => {
+                gsap.to(containerRef.current, {
+                    yPercent: 10,
+                    autoAlpha: 0.85,
+                    ease: 'none',
+                    scrollTrigger: {
+                        trigger: sectionRef.current,
+                        start: 'top top',
+                        end: 'bottom top',
+                        scrub: 0.8,
+                        invalidateOnRefresh: true,
+                    },
+                });
             });
 
-            tl.fromTo(
-                '.slide-up-and-fade',
-                { y: 0, opacity: 1 },
-                { y: -150, opacity: 0, stagger: 0.02 },
-            );
+            mm.add('(prefers-reduced-motion: reduce)', () => {
+                gsap.set(containerRef.current, { yPercent: 0, autoAlpha: 1 });
+            });
+
+            return () => mm.revert();
         },
         { scope: containerRef },
     );
 
     return (
-        <section className="relative overflow-hidden" id="banner">
+        <section className="relative overflow-hidden" id="banner" ref={sectionRef}>
             <ArrowAnimation />
             <div
-                className="container h-[100svh] min-h-[530px] max-md:pb-10 flex justify-between items-center max-md:flex-col relative z-[1] 2xl:px-24 2xl:mx-auto"
+                className="container h-[100svh] min-h-[530px] max-md:pb-10 flex justify-between items-center max-md:flex-col relative z-[1]"
                 ref={containerRef}
             >
                 <div className="max-md:grow max-md:flex flex-col justify-center items-start max-w-[800px]">

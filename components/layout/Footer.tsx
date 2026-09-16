@@ -1,23 +1,23 @@
 import { SoundLink } from '@/components/ui/SoundLink';
 import FooterCopyright from '@/components/admin/FooterCopyright';
-import { getSettings } from '@/lib/services/settings-service';
+import type { ISiteSettings } from '@/types/social';
 
 interface RepoStats {
     stargazers_count: number;
     forks_count: number;
 }
 
-const DEFAULT_EMAIL = 'ryyn.work@gmail.com';
-const DEFAULT_NAME = 'Royyan Hikmal Kautsar';
+interface Props {
+    settings?: ISiteSettings | null;
+}
 
-const Footer = async () => {
+const Footer = async ({ settings }: Props) => {
     let stats: RepoStats = { stargazers_count: 0, forks_count: 0 };
 
     const GITHUB_REPO = 'Zedts/MyPortfolio';
 
-    const settings = await getSettings();
-    const email = settings?.email || DEFAULT_EMAIL;
-    const name = settings?.name || DEFAULT_NAME;
+    const email = settings?.email ?? '';
+    const name = settings?.name ?? '';
 
     try {
         const repoStats = await fetch(

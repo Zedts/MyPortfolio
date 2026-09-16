@@ -1,4 +1,4 @@
-import type { IStackItem, StackCategories } from '@/types/stack';
+import type { IStackItem } from '@/types/stack';
 
 const stackEntries: Array<IStackItem & { category: string }> = [
     // Frontend
@@ -27,13 +27,4 @@ const stackEntries: Array<IStackItem & { category: string }> = [
     { name: 'AWS', icon: '/logo/aws.png', category: 'tools' },
 ];
 
-const withOrder = stackEntries.map((item, idx) => ({ ...item, order: idx + 1 }));
-
-export const STACK_ITEMS_FLAT: IStackItem[] = withOrder;
-
-export const MY_STACK: StackCategories = withOrder.reduce<StackCategories>((acc, item) => {
-    const { category } = item;
-    if (!acc[category]) acc[category] = [];
-    acc[category].push(item);
-    return acc;
-}, {});
+export const STACK_ITEMS_FLAT: IStackItem[] = stackEntries.map((item, idx) => ({ ...item, order: idx + 1 }));

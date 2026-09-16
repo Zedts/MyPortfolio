@@ -20,6 +20,7 @@ export const siteSettingsSchema = z.object({
     socialLinks: z.array(socialLinkSchema).default([]),
     bannerStats: bannerStatsSchema.optional(),
     aboutMeText: z.string().optional(),
+    aboutMeTitle: z.string().optional(),
     bannerText: z.string().optional(),
     name: z.string().optional(),
     role: z.string().optional(),

@@ -1,5 +1,7 @@
 import type { ISiteSettings } from '@/types/social';
 
+export const DEFAULT_NAME = 'Royyan Hikmal Kautsar';
+
 export const GENERAL_INFO: Pick<ISiteSettings, 'email' | 'emailSubject' | 'emailBody' | 'upworkProfile'> = {
     email: 'ryyn.work@gmail.com',
     emailSubject: "Let's collaborate on a project",
@@ -12,6 +14,9 @@ export const BANNER_STATS: NonNullable<ISiteSettings['bannerStats']> = {
     projects: '7+',
     users: '1000+',
 };
+
+export const ABOUT_ME_TITLE =
+    'I believe in a user-centered design approach, ensuring every project is tailored to its users.';
 
 export const ABOUT_ME_TEXT = `Hi, I'm Royyan Hikmal Kautsar, a passionate Full-Stack Developer with a keen eye for design and a love for creating seamless digital experiences. I specialize in building modern web applications that are not only functional but also visually stunning and user-friendly.
 
