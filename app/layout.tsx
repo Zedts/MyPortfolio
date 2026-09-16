@@ -1,8 +1,6 @@
 import type { Metadata } from 'next';
 import { Anton, Roboto_Flex } from 'next/font/google';
-import { ReactLenis } from 'lenis/react';
 
-import 'lenis/dist/lenis.css';
 import './globals.css';
 
 import Navbar from '@/components/layout/Navbar';
@@ -11,6 +9,7 @@ import CustomCursor from '@/components/animations/CustomCursor';
 import Preloader from '@/components/animations/Preloader';
 import ParticleBackground from '@/components/animations/ParticleBackground';
 import ScrollProgressIndicator from '@/components/common/ScrollProgressIndicator';
+import HashScrollHandler from '@/components/common/HashScrollHandler';
 import AdminShortcut from '@/components/admin/AdminShortcut';
 import AdminLoginDialog from '@/components/admin/AdminLoginDialog';
 import { getSettings } from '@/lib/services/settings-service';
@@ -49,24 +48,17 @@ export default async function RootLayout({
                 className={`${antonFont.variable} ${robotoFlex.variable} antialiased bg-background text-foreground`}
                 suppressHydrationWarning
             >
-                <ReactLenis
-                    root
-                    options={{
-                        lerp: 0.1,
-                        duration: 1.4,
-                    }}
-                >
-                    <Navbar socialLinks={socialLinks} email={email} />
-                    <main>{children}</main>
-                    <Footer />
+                <HashScrollHandler />
+                <Navbar socialLinks={socialLinks} email={email} />
+                <main>{children}</main>
+                <Footer />
 
-                    <CustomCursor />
-                    <Preloader />
-                    <ScrollProgressIndicator />
-                    <ParticleBackground />
-                    <AdminShortcut />
-                    <AdminLoginDialog />
-                </ReactLenis>
+                <CustomCursor />
+                <Preloader />
+                <ScrollProgressIndicator />
+                <ParticleBackground />
+                <AdminShortcut />
+                <AdminLoginDialog />
             </body>
         </html>
     );

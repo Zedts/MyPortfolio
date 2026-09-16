@@ -1,7 +1,7 @@
 'use client';
 import { useHoverSound } from '@/hooks/useHoverSound';
 import { cn } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { MoveUpRight } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import type { ISocialLink } from '@/types/social';
@@ -22,22 +22,10 @@ const COLORS = [
 ];
 
 const MENU_LINKS = [
-    {
-        name: 'Home',
-        url: '/',
-    },
-    {
-        name: 'About Me',
-        url: '/#about-me',
-    },
-    {
-        name: 'Experience',
-        url: '/#my-experience',
-    },
-    {
-        name: 'Projects',
-        url: '/#selected-projects',
-    },
+    { name: 'Home', url: '/' },
+    { name: 'About Me', url: '/#about-me' },
+    { name: 'Experience', url: '/#my-experience' },
+    { name: 'Projects', url: '/#selected-projects' },
 ];
 
 interface Props {
@@ -54,22 +42,45 @@ const Navbar = ({ socialLinks, email }: Props) => {
     const links = socialLinks?.length ? socialLinks : DEFAULT_SOCIAL_LINKS;
     const contactEmail = email || DEFAULT_EMAIL;
 
-    // The back-office has its own responsive navigation drawer. Rendering the
-    // public menu there would create two competing navigation controls.
-    if (pathname === '/ops-k7m4' || pathname.startsWith('/ops-k7m4/')) {
+    const isBackOffice = pathname === '/ops-k7m4' || pathname.startsWith('/ops-k7m4/');
+
+    const scrollToHash = useCallback((hash: string) => {
+        if (hash === '#' || hash === '#banner') {
+            window.scrollTo({ top: 0, behavior: 'auto' });
+            return;
+        }
+        const el = document.getElementById(hash.slice(1));
+        if (el) {
+            el.scrollIntoView({ behavior: 'auto', block: 'start' });
+        }
+    }, []);
+
+    const handleNavigation = useCallback((url: string) => {
+        const hashIndex = url.indexOf('#');
+        const hasHash = hashIndex !== -1;
+        const urlPath = hasHash ? url.substring(0, hashIndex) : url;
+        const urlHash = hasHash ? url.substring(hashIndex) : '';
+
+        const isHomePath = urlPath === '/' || urlPath === '';
+        const isOnHome = pathname === '/';
+
+        setIsMenuOpen(false);
+
+        if (isOnHome && isHomePath) {
+            if (hasHash && urlHash !== '#') {
+                scrollToHash(urlHash);
+            } else {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            }
+            history.replaceState(null, '', url);
+        } else {
+            router.push(urlPath + urlHash);
+        }
+    }, [pathname, router, scrollToHash]);
+
+    if (isBackOffice) {
         return null;
     }
-
-    const handleNavigation = (url: string) => {
-        // Jika URL adalah home page dan kita sudah di home, scroll ke atas
-        if (url === '/' && window.location.pathname === '/') {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            setIsMenuOpen(false);
-        } else {
-            router.push(url);
-            setIsMenuOpen(false);
-        }
-    };
 
     return (
         <>
