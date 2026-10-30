@@ -46,13 +46,11 @@ export default function FooterCopyright({ year, name }: { year: string; name: st
         <button
             type="button"
             onClick={registerTap}
-            onMouseEnter={playHover}
             onPointerDown={startPress}
             onPointerUp={endPress}
             onPointerLeave={endPress}
             onPointerCancel={endPress}
             className="select-none text-left"
-            title="Tap seven times or long-press for admin access"
         >
             © {year} {name}
         </button>
